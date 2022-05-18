@@ -41,16 +41,16 @@ spring:
                   predicates:
                       - Path=/server1/game/v1.0/matches/**
                   filters:
-                      - StripPrefix= 1
-#                     - RewritePath=/server1/Matches,/Matches
+#                      - StripPrefix= 1
+                     - RewritePath=/server1/game/v1.0/matches,/game/v1.0/matches
                 - id: game
                   uri: lb://GAME-CENTER
                   predicates:
                       - Path=/server1/game/v1.0/gameteam/**
 
                   filters:
-                      - StripPrefix= 1
-              #       - RewritePath=/server1/Matches,/Matches
+#                      - StripPrefix= 1
+                     - RewritePath=/server1/game/v1.0/gameteam,/game/v1.0/gameteam
 
         consul:
           host: 127.0.0.1
