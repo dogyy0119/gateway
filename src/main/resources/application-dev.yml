@@ -1,0 +1,63 @@
+####################################
+# 服务器配置
+####################################
+server:
+    port: 8103
+    tomcat:
+        uri-encoding: UTF-8
+
+####################################
+# 注册中心
+####################################
+#eureka:
+#    instance:
+#        #优先使用IP地址作为主机名的标识
+#        prefer-ip-address: true
+#        #续约任务调用时间间隔
+#        lease-renewal-interval-in-seconds: 30
+#        #服务失效时间
+#        lease-expiration-duration-in-seconds: 90
+#    client:
+#        #服务地址
+#        serviceUrl:
+#            #默认区
+#            defaultZone: http://172.27.238.208:8501/eureka/
+
+#####################################
+# 日志引擎
+#####################################
+logging:
+    config: classpath:log/log4j2-dev.xml
+
+#####################################
+# 网关配置
+#####################################
+spring:
+    cloud:
+        gateway:
+            routes:
+                - id : match
+                  uri: lb://MATCH-CENTER
+                  predicates:
+                      - Path=/server1/game/v1.0/matches/**
+                  filters:
+                      - StripPrefix= 1
+#                     - RewritePath=/server1/Matches,/Matches
+                - id: game
+                  uri: lb://GAME-CENTER
+                  predicates:
+                      - Path=/server1/game/v1.0/gameteam/**
+
+                  filters:
+                      - StripPrefix= 1
+              #       - RewritePath=/server1/Matches,/Matches
+
+        consul:
+          host: 127.0.0.1
+          port: 8500
+          discovery:
+            heartbeat:
+              enabled: true
+            service-name: ${spring.application.name}
+            instance-id: ${spring.application.name}:${spring.cloud.client.hostname}:${server.port}
+
