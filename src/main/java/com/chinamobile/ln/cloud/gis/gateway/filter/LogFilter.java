@@ -31,7 +31,15 @@ public class LogFilter implements GlobalFilter, Ordered {
         }
 
         return chain.filter(exchange).then( Mono.fromRunnable(() ->
-            logger.info("请求结束")
+//            logger.info("请求结束")
+//              logger.info("请求结束")
+                {
+                    try {
+                        logger.info("请求结束：method={}, url={}", exchange.getRequest().getMethodValue(), exchange.getRequest().getURI().toURL().toString());
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
         ));
 
     }
