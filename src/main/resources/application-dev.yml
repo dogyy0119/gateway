@@ -48,10 +48,11 @@ spring:
                   predicates:
                       - Path=/server/game/v1.0/app/**
                   filters:
-#                      - StripPrefix= 1
                      - RewritePath=/server/game/v1.0/app,/game/v1.0/app
                 - id: oneserver
-                  uri: https://api.nocheater.cn
+#                  uri: https://api.nocheater.cn
+#                  uri: 127.0.0.1:8666
+                  uri: http://www.nocheater.cn:8666
                   predicates:
                       - Path=/server/api/**
                   filters:
